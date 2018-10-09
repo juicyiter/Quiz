@@ -11,6 +11,7 @@
 @interface JITQuizViewController ()
 
 @property (nonatomic) int currentQuestionIndex;
+@property (nonatomic) int flag; // whether or not the initial start
 
 @property (nonatomic, copy) NSArray *questions; // These arrays are needed to be created right after the QuizViewController
 @property (nonatomic, copy) NSArray *answers;   // to make sure that they are ready to go at the same time that the QuizViewController
@@ -54,7 +55,7 @@
     
     // Step to the next question
     self.currentQuestionIndex++;
-    
+    self.flag = 1;
     // Am I the last question?
     if(self.currentQuestionIndex == [self.questions count]){
         // Go back to the first question
@@ -73,10 +74,15 @@
 
 - (IBAction) showAnswer :(id)sender
 {
-    // What is the answer to the current question?
-    NSString *answer = self.answers[self.currentQuestionIndex];
+    if(self.flag){
+        // What is the answer to the current question?
+        NSString *answer = self.answers[self.currentQuestionIndex];
     
-    // Display the answer in the answer label
-    self.answerLabel.text = answer;
+        // Display the answer in the answer label
+        self.answerLabel.text = answer;
+    }
+    else{
+        self.answerLabel.text = @"The question is not shown!";
+    }
 }
 @end
